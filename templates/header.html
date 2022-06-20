@@ -1,0 +1,45 @@
+{%load customtag %}
+
+
+
+ <header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <img src="/static/img/GITAM-logo.png" alt="GITAM_logo" class="gitam_logo"/>
+                            <div class="sa-menu">
+                                <ul class="d-flex align-items-center">
+                                    <li> {% if request.user|has_group:"Scholar" %}
+                                            <a href="/media/Guidelines.pdf" target="_blank"><button class="sa_btn">
+                                            <span>GEARS Guidelines</span>
+                                        </button></a>
+                                        {% endif %}</li>
+                                    <li>
+                                    <li> {% if request.user|has_group:"Reviewer" %}
+                                            <a href="/reviewer"> Reviewer</a>
+                                        {% endif %}</li>
+                                    <li>
+                                     {% if request.user|has_group:"Admin" %}
+                                         <a href="/sa"> Admin </a>
+                                    {% endif %}</li>
+                                    <li> {% if request.user|has_group:"PanelMember" %}
+                        <a href="/panelmember">Panel Evaluation</a>
+                                            {% endif %}</li>
+                                    <li><a href="/logout"><button class="sa_btn">
+                                            <span>Logout</span>
+                                            <img src="/static/img/log_out.png" alt="log_out" />
+                                        </button></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="menu-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>

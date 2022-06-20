@@ -1,0 +1,449 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+ul {
+    margin: 0px;
+}
+
+ul li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #cdcdcd;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+body {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    background: #f9fbff !important;
+}
+
+#wrapper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 0% auto;
+}
+
+.dsk-card {
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.05),
+        inset 0px 3px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.dsk-card h1 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dsk-card .google {
+    display: flex;
+    border: 1px solid;
+    border-radius: 50px;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    margin: 0% auto;
+    margin-bottom: 20px;
+    width: 300px;
+    cursor: pointer;
+    color: initial;
+}
+
+.dsk-card .google img {
+    margin-right: 10px;
+}
+
+.dsk-card .google h6 {
+    margin: 0px;
+}
+
+header {
+    width: 100%;
+    height: auto;
+    padding: 5px 0px;
+    background: #fff;
+}
+
+.gitam_logo {
+    width: 250px;
+}
+.login-alert{
+    background:  #981f2b;
+    color:#fff;
+}
+.sa_btn {
+    border: none;
+    background: #981f2b;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #fff;
+}
+.sa_btn_black {
+    border: none;
+    background: #000000;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #fff;
+}
+
+.sa_btn img {
+    width: 20px;
+}
+
+.dsk-profile-pic {
+    border: 3px solid #981f2b;
+    border-radius: 150px;
+    width: 140px;
+    height: 140px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.dsk-profile-pic img {
+    width: 100%;
+}
+
+.content label {
+    font-size: 16px;
+    color: #a09e9e;
+}
+
+.content h6 {
+    color: #000;
+    font-size: 18px;
+}
+
+.content .progress {
+    border-radius: 50px;
+    height: 10px;
+    background-color: #e9edf7;
+}
+
+.content .progress .progress-bar {
+    border-radius: 50px;
+    background-color: #023e8a;
+}
+
+.bg_none {
+    background: transparent;
+    color: #e42428;
+    font-weight: 500;
+}
+
+.paper_con {
+    display: flex;
+    align-items: center;
+}
+
+.sa_modal_button {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: -10px;
+    top: -15px;
+    border: none;
+    border-radius: 50px;
+    background: #fff;
+    color: #e42428;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
+    cursor: pointer;
+}
+
+
+.table thead{
+    background:#F9FBFF !important;
+}
+.table tbody{
+    background:#fff !important;
+}
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border: 0px !important;
+    white-space: nowrap;
+}
+
+tbody tr {
+    background: #fff;
+    border-bottom: 10px solid #f9fbff !important;
+}
+
+td.dtfc-fixed-left{
+    background: #fff;
+}
+th.dtfc-fixed-left{
+    background: #F9FBFF;
+}
+tbody td span {
+    color: #e42428;
+}
+
+.tabel_buttons button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    margin-right: 10px;
+    border-radius: 50px;
+}
+
+.sa-img {
+    width: 100%;
+}
+
+.sa-img img {
+    width: 100%;
+}
+
+.dsk_content {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px solid;
+}
+
+.dsk_content h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.dsk_content h6 {
+    font-size: 18px;
+    color: #000 !important;
+}
+
+.bg_1 {
+    background-color: #023e8a;
+}
+
+.bg_2 {
+    background-color: #e42428;
+}
+
+.bg_3 {
+    background-color: #34c759;
+}
+
+.bg_4 {
+    background-color: #FAA640;
+}
+
+.color-1 {
+    border: 1px solid #023e8a;
+    color: #023e8a;
+}
+
+.color-2 {
+    border: 1px solid #e42428;
+    color: #e42428;
+}
+
+.color-3 {
+    border: 1px solid #34c759;
+    color: #34c759;
+}
+
+.color-4 {
+    border: 1px solid #FAA640;
+    color: #FAA640;
+}
+
+
+/*menu*/
+
+
+.sa-menu ul li {
+    margin-right: 20px;
+}
+
+.sa-menu ul li a {
+    color: #000;
+}
+
+.sa-menu ul li .active {
+    color: #E42428;
+}
+
+.menu-icon {
+    width: 50px;
+    height: 50px;
+    float: right;
+    position: relative;
+    cursor: pointer;
+    z-index: 99999;
+    box-sizing: border-box;
+    display: none;
+}
+
+.menu-icon span {
+    width: 35px;
+    height: 3px;
+    margin-left: 6px;
+    position: absolute;
+    top: 22px;
+    display: block;
+    background: #000;
+    transition: 0.5s;
+    z-index: 999999;
+}
+
+.menu-icon span:nth-child(1) {
+    transform: translateY(-10px);
+    width: 25px;
+    margin-left: 15px;
+}
+
+.menu-icon span:nth-child(3) {
+    transform: translateY(10px);
+    width: 25px;
+    margin-left: 15px;
+}
+
+.menu-icon.active span:nth-child(1) {
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+
+.menu-icon.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    transition: 0.5s;
+}
+
+.menu-icon.active span:nth-child(2) {
+    transform: translateX(100px);
+    transition: 0.5s;
+    opacity: 0;
+}
+
+
+@media only screen and (max-width: 990px) {
+    .sa-flex-direction {
+        flex-direction: column-reverse;
+    }
+
+    .menu-icon {
+        display: initial;
+    }
+
+    .sa-menu {
+        position: fixed;
+        width: 30%;
+        top: 0px;
+        left: 0px;
+        display: none;
+        background: #fff;
+        height: 100%;
+        padding-top: 40px;
+        transition: 0.3s;
+    }
+
+    .sa-menu.active {
+        display: block;
+    }
+
+    .sa-menu ul {
+        display: block !important;
+        padding: 0px;
+    }
+
+    .sa-menu ul li {
+        margin-right: 0px;
+    }
+
+    .sa-menu ul li a {
+        display: block;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .sa-menu ul li .sa_btn {
+        border-radius: 0px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+
+}
+
+@media only screen and (max-width: 536px) {
+    .paper_con {
+        display: block;
+        align-items: center;
+    }
+
+    .sa_btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .dsk-card .google {
+        width: 90%;
+    }
+    .sa-menu {
+        position: fixed;
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .gitam_logo {
+        width: 180px;
+    }
+    .sa-menu {
+        position: fixed;
+        width: 70%;
+    }
+}
+
+.multiselect-dropdown{
+    width: 100% !important;
+}
+

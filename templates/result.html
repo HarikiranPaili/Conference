@@ -1,0 +1,254 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GITAM Deemed to be University</title>
+    <link rel="shortcut icon" href="https://www.gitam.edu/assets/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/static/css/select2.min.css">
+    <link type="text/css"
+          href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css"
+          rel="stylesheet"/>
+</head>
+<body>
+<style>
+    .dt-buttons{
+    margin-bottom:25px;
+    }
+</style>
+
+<!--header-->
+{% include 'header2.html' %}
+
+<div class="container">
+    <div class="col align-items-end">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show"
+                     role="alert">{{ message }}
+                    <span class="closebtn" style=" float:right;"
+                          onclick="this.parentElement.style.display='none';">x</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="container mt-5">
+    <div class="accordion accordion-flush mt-3" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Filter Results
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                 data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <form id="myform" action="">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Select Campus</label>
+                                    <select id="campus_selected" class="form-control" name="campus" required>
+                                        <option value="">Select Campus</option>
+                                        {% for i in campus %}
+                                            <option value="{{ i.campus }}">{{ i.campus }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="institute">
+                                <div class="form-group">
+                                    <label>Select Institute</label>
+                                    <select class="form-control" name="inst" required>
+                                        <option value="">Select Institute</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="department">
+                                <div class="form-group">
+                                    <label>Select Department</label>
+                                    <select class="form-control" name="dept" required>
+                                        <option value="">Select Department</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="ay">
+                                <div class="form-group">
+                                    <label>Select Year</label>
+                                    <select class="form-control" name="ay" required>
+                                        <option value="">Select Year</option>
+                                        <option value="2022">2022</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button class="sa_btn mt-4" id="selected_results" style="margin-top: 20px; background-color: black;"
+                                            type="submit">
+                                        <span>Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5" id="change_table">
+    <div class="row">
+        <div class="col-12">
+            <h3>Results List</h3>
+            <div class="table-responsive">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+
+                        <th>Register Id</th>
+                        <th>Scholar Name</th>
+                        <th>Campus</th>
+                        <th>Institute</th>
+                        <th>Department</th>
+                        <th>Paper Title</th>
+                        <th>Proposal Date</th>
+                        <th>Average Score</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in result %}
+                        <tr>
+                            <td>{{ i.u_id_id__u_id }}</td>
+                            <td>{{ i.u_id_id__first_name }}</td>
+                            <td>{{ i.u_id_id__campus }}</td>
+                            <td>{{ i.u_id_id__institution }}</td>
+                            <td>{{ i.u_id_id__department }}</td>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.proposal_date }}</td>
+                            <td>{{ i.avg_score | floatformat:2 }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/multiselect-dropdown.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap5.min.js"></script>
+</body>
+
+<script>
+    $(document).ready(function () {
+        var filter = 1;
+        let table = $('#myTable').DataTable({
+            "lengthMenu": [[10, 15, 20, -1], ["10", "15", "20", "ALL"]],
+             buttons: [
+                {
+                    extend : 'excelHtml5',
+                    text: 'Export Excel',
+                }
+
+            ],
+             dom: '<"top" B>lfrtip',
+        });
+
+    });
+
+    $(document).on('change', '#campus_selected', function () {
+        var campus = $(this).val();
+        var data = {campus};
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'selected_campus' %}",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                $("#institute").replaceWith(data.html_form);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+        $(document).on('click', '#selected_results', function () {
+        var frm = $('#myform');
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'selected_results' %}",
+            data: frm.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                let table_data = data.data;
+
+                $("#change_table").replaceWith(table_data);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+        return false;
+    });
+
+
+    $(document).on('change', '#selected_inst', function () {
+        var inst = $(this).val();
+        var campus = $('#campus_selected').val();
+        var data = {inst:inst,campus:campus};
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'selected_inst' %}",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                $("#department").replaceWith(data.html_form);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+    $(document).on('change', '#selected_dept', function () {
+        var dept = $(this).val();
+        var data = {dept};
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'selected_dept' %}",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                $("#Empid").replaceWith(data.html_form);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+</script>
+
+
+</html>

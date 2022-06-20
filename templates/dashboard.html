@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GITAM Deemed to be University</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="https://www.gitam.edu/assets/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+{% include 'header.html' %}
+<!-- profile contetn starts -->
+<div class="container">
+    <div class="col align-items-end">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                     role="alert">{{ message }}
+                    <span class="closebtn" style=" float:right;"
+                          onclick="this.parentElement.style.display='none';">x</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="dsk-card mt-5">
+        <div class="row">
+            <div class="col-lg-2 col-md-12">
+                <div class="dsk-profile-pic">
+                    <img src="https://gstaff.gitam.edu/img1.aspx?empid={{ request.user.u_id }}" alt="ProfilePic_Gitam">
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-12">
+                <div class="row">
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Name of the Applicant</label>
+                            <h6>{{ request.user.username }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Registration ID</label>
+                            <h6>{{ request.user.u_id }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Department</label>
+                            <h6>{{ request.user.department }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>School/Institute</label>
+                            <h6>{{ request.user.institution }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Campus</label>
+                            <h6>{{ request.user.campus }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Email ID</label>
+                            <h6>{{ request.user.email }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Phone Number</label>
+                            <h6>{{ request.user.phone }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Supervisor Name</label>
+                            <h6>{{ request.user.supervisor_name }}</h6>
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-4 col-sm-6">
+                        <div class="content">
+                            <label>Supervisor Email</label>
+                            <h6>{{ request.user.supervisor_email }}</h6>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="content mt-4">
+                            <div class="paper_con">
+
+                                <button class="sa_btn bg_1" style="padding: 6px 13px;" data-bs-toggle="modal" data-bs-target="#modal">Click here
+                                </button> &nbsp;<h6 class="me-3 mt-2">To submit your paper</h6>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- profile contetn ends -->
+<!-- tabel starts-->
+<div class="mt-5 container">
+    <div class="row">
+        <div class="col">
+            <h3>Review Status</h3>
+            <div class="table-responsive">
+                <table class="table" id="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Paper Title</th>
+                        <th>Status</th>
+                        <th>Reviewer Comments</th>
+                        {#                        <th>plagarism</th>#}
+                        <th>Supervisor Approval</th>
+                        <th>Document</th>
+                        <th>Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr id="{{ i.doc_scanid }}">
+                            <td>
+                                <span>#{{ i.id }}</span>
+                            </td>
+                            <td>{{ i.title }}</td>
+                            <td>
+                                {% if i.supervisor_status == "Rejected" %}
+                                     Rejected by Supervisor
+                                {% elif i.proposal_status == 0 %}
+                                    Revision Pending
+                                {% elif i.proposal_status == 1 %}
+                                    Reviewer Pending
+                                {% elif i.proposal_status == 2 or i.proposal_status == 3 %}
+                                    Panel Pending
+                                {% elif i.proposal_status == 4 %}
+                                    Completed (Result TBA)
+                                {% elif i.proposal_status == 7 %}
+                                    Please check the comments
+                                {% elif i.proposal_status == 20 %}
+                                   Approved for Poster Presentation
+                                {% else %}
+                                    {% if i.rejected_by == 1 %}
+                                        Auto Rejected
+                                    {% else %}
+                                        Rejected by Reviewer
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td></td>
+
+                            <td>{{ i.supervisor_status }}</td>
+                            {#                            <td>{{ i.plagarism_score }}</td>#}
+                            <td>
+                                <div class="tabel_buttons">
+                                    <button class="bg_3">
+                                        <a href="/media/{{ i.documents }}" target="_blank"> <img
+                                                src="/static/img/download.png" alt="download_img"/></a>
+                                    </button>
+                                </div>
+                            </td>
+                                 {%if i.proposal_status == 0 and i.supervisor_status == 'Pending' %}
+                        <td>
+
+                     <a>       <i cstyle="color:darkred" class="fa fa-pencil-square-o" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#modal{{ i.id }}"> Edit
+                                </i></a>
+                        </td>
+                        {%else%}
+                        <td>No Action</td>
+                        {% endif %}
+                        </tr>
+                        <div class="modal fade" id="modal{{ i.id }}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button class="sa_modal_button" data-bs-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <div class="modal_content">
+                    <h5>Paper Submission</h5>
+                    <form method="post" action="{% url 'scholar_edited' %}" enctype="multipart/form-data"
+                          novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Paper Title</label>
+                                    <input type="hidden" name="pid" value="{{ i.id }}">
+                                    <input value="{{ i.title }}" name="paperTitle" type="text"
+                                           class="form-control" spellcheck="false" data-ms-editor="true" maxlength="80"
+                                           required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Abstract</label>
+                                    <textarea rows="3"  name="paperAbstract"
+                                              class="form-control" spellcheck="false" data-ms-editor="true"
+                                              maxlength="500"
+                                              required>{{ i.abstract }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Summary</label>
+                                    <textarea rows="3"  name="paperSummary" class="form-control"
+                                              maxlength="500" spellcheck="false" data-ms-editor="true"
+                                              required>{{ i.summary }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Keywords</label>
+                                    <input value="{{ i.keypoints }}" name="paperKeyPoints" type="text"
+                                           maxlength="80" class="form-control" spellcheck="false" data-ms-editor="true" >
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Upload Document(.doc, .docx)</label>
+                                <a href="/media/{{ i.documents }}">Current Document</a>
+                                <input name="paperfile" type="file" class="form-control" required
+                                       accept=".doc,.docx">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Upload Turnitin Report(.pdf)</label>
+                                <a href="/media/{{ i.plagarism_doc }}">Current Trunitin Report</a>
+                                <input name="reportfile"  type="file" class="form-control" required
+                                       accept="application/pdf">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Enter Similarity Check Score</label>
+                                <input style="width: 50%" name="similarity" value="{{ i.plagarism_score }}" type="number"
+                                       class="form-control" min="0" max="100" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-end">
+                                    <button class="sa_btn bg_none" data-bs-dismiss="modal" aria-label="Close">Cancel
+                                    </button>
+                                    <button class="sa_btn bg_1" type="submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- tabel ends-->
+
+
+<!-- modal popup starts-->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button class="sa_modal_button" data-bs-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <div class="modal_content">
+                    <h5>Paper Submission</h5>
+                    <form id="form1" method="post" action="{% url 'copy_leaks' %}" enctype="multipart/form-data"
+                          novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Paper Title</label>
+                                    <input placeholder="Paper Title" name="paperTitle" type="text"
+                                           class="form-control" spellcheck="false" data-ms-editor="true" maxlength="80"
+                                           required id="title">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Abstract</label>
+                                    <textarea rows="3" placeholder="Abstract" name="paperAbstract"
+                                              class="form-control" spellcheck="false" data-ms-editor="true"
+                                              maxlength="500"
+                                              required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Summary</label>
+                                    <textarea rows="3" placeholder="Summary" name="paperSummary" class="form-control"
+                                              maxlength="500" spellcheck="false" data-ms-editor="true"
+                                              required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Keywords</label>
+                                    <input placeholder="Keywords" name="paperKeyPoints" type="text"
+                                           maxlength="80" class="form-control" spellcheck="false" data-ms-editor="true"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Upload Document(.doc, .docx)</label>
+                                <input name="paperfile" id="paperfile" type="file" class="form-control" required
+                                       accept=".doc,.docx">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Upload Turnitin Report(.pdf)</label>
+                                <p style="color:darkred;"><small>Note: Turnitin Report(.pdf) must be 20% or below.</small></p>
+                                <input name="reportfile" id="reportfile" type="file" class="form-control" required
+                                       accept="application/pdf">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Enter Similarity Check Score</label>
+                                <input style="width: 50%" name="similarity" type="number"
+                                       class="form-control" min="0" max="100" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-end">
+                                    <button class="sa_btn bg_none" data-bs-dismiss="modal" aria-label="Close">Cancel
+                                    </button>
+                                    <button class="sa_btn bg_1" type="submit" id="report">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal popup ends-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+{#<script src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>#}
+</body>
+
+</html>

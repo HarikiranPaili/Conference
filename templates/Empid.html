@@ -1,0 +1,11 @@
+ <div class="col-md-3" id="department">
+                <div class="form-group">
+                    <label>Select Empid</label>
+                    <select  class="form-control" name="Empid" required>
+                        <option value="">Select Employee Id</option>
+                        {% for i in Empid %}
+                        <option value="{{ i.Empid }}">{{ i.Empid }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+</div>

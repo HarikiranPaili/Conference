@@ -1,0 +1,90 @@
+{% include 'head.html' %}
+
+<body>
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Review</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Paper Title</th>
+                        <th>Assigned Date</th>
+                        <th>Scheduled Date</th>
+                        <th>Document</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr>
+                            <td>{{ i.proposal_id__title }}</td>
+                            <td>
+                                <label className="ms-2">{{ i.assigned_date }}</label>
+                            </td>
+                            <td>
+                                <label className="ms-2">{{ i.scheduled_date }}</label>
+                            </td>
+                            <td><a href="/media/{{ i.proposal_id__re_documents }}" target="_blank"> Download</a></td>
+                            <td>
+                                <label className="ms-2">{{ i.panel_status }}</label>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="col-md-6">
+            <form action="{% url 'panelmember_action' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Enter Score (out of 100)</label>
+                    <input type="hidden" name="sid" value="{{ pid }}">
+                    <input type="hidden" name="prop_id" value="{{ prop_id }}">
+                    <input class="form-control" name="score" type="number" min="0" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Remarks </label>
+                    <textarea name="remarks" class="form-control" rows="5" cols="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </div>
+
+            </form>
+        </div>
+            </div>
+    </div>
+</div>
+
+
+</div>
+
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+</script>
+
+
+</html>

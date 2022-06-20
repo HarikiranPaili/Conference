@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Approval Required</title>
+</head>
+<body>
+We are glad to inform you that you have uploaded the paper with the title <strong>[ {{ paper_title }} ] </strong> for GEARS 2.0. In this regard, you would get a mail regarding the status of Accept/Reject  soon.
+ <br>
+<br>
+You may contact us at 08912840204  or  gears_support@gitam.edu if you have any questions or need any clarifications on them.
+
+<button><a href="http://localhost:8000{% url 'superv_approval' pk %}">Approve</a></button>
+<button><a href="http://localhost:8000{% url 'superv_reject' pk %}">Reject</a></button>
+</body>
+</html>

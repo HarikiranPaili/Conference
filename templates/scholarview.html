@@ -1,0 +1,222 @@
+{% include 'head.html' %}
+
+<body>
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="table-responsive mt-4">
+             <h3 style="color: darkred">Scholar Paper Details</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Scholar Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Campus</th>
+                        <th>College</th>
+                        <th>Department</th>
+                        <th>Document</th>
+                        <th>Plagarism Score</th>
+                        <th>Propsal Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr>
+
+                            <td>{{ i.u_id_id__username }}</td>
+                            <td>{{ i.u_id_id__email }}</td>
+                            <td>{{ i.u_id_id__phone }}</td>
+                            <td>{{ i.u_id_id__campus }}</td>
+                            <td>{{ i.u_id_id__institution }}</td>
+                            <td>{{ i.u_id_id__department }}</td>
+                            <td><a href="/media/{{ i.documents }}" target="_blank"> Download</a></td>
+                            <td>
+                                <label className="ms-2">{{ i.plagarism_score }}</label>
+                            </td>
+                        <td>{{ i.proposal_date }}</td>
+
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            <div class="row">
+            <div class="form-group col-md-4">
+            <label>Paper Title</label>
+                    <textarea class="form-control" cols="40" rows="3" readonly disabled>{{ title }} </textarea>
+            </div>
+                <div class="form-group col-md-4">
+            <label>Abstract</label>
+                    <textarea class="form-control" cols="40" rows="3" readonly disabled>{{ abstract }} </textarea>
+            </div>
+                 <div class="form-group col-md-4">
+            <label>Key Words</label>
+                    <textarea class="form-control" cols="40" rows="3" readonly disabled>{{ keypoints }} </textarea>
+            </div>
+            </div>
+
+                <div class="form-group">
+            <label>Summary</label>
+                    <textarea class="form-control" cols="40" rows="3" readonly disabled>{{ summary }} </textarea>
+            </div>
+
+            </div>
+        <div class="container mt-4">
+            <div class="row">
+             <div class="form-group col-md-5">
+            <label>Proposal Status</label>
+                    <input type="text" style="width: 50%" class="form-control" readonly
+                           {% if pstatus == 0 %}
+                                        value="Assignee Reviewer Pending"
+                                    {% elif pstatus == 1 %}
+                                        value="Pending with Reviewer"
+                                    {% elif pstatus == 2 %}
+                                        value="Assignee Panel Member Pending"
+                                    {% elif pstatus == 3 %}
+                                        value="Pending with PanelMember"
+                                    {% elif pstatus == 4 %}
+                                        value="Completed"
+                           {% elif pstatus == 20 %}
+                                        value="Poster Presentation"
+                                    {% else %}
+                                        value="Rejected"
+                                    {% endif %}
+                           disabled>
+            </div>
+                 <div class="form-group col-md-5">
+            <label>Average Score</label>
+                    <input type="text" style="width: 50%" class="form-control" readonly value="{{ avg_score }}" disabled>
+            </div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="table-responsive mt-4">
+             <h3 style="color: darkred">Reviewer Result</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Reviewer Id</th>
+                        <th>Reviewer Name</th>
+                        <th>Reviewer Comments</th>
+                         {% for i in scores %}
+                        <th>{{ i.ques_id__ques}}</th>
+                        {% endfor %}
+                        <th>Status</th>
+                        <th>Accept/Reject(Date)</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    {% if rdata %}
+                    {% for j in rdata %}
+                        <tr>
+                            <td>{{ j.reviewer_id_id }}</td>
+                            <td>
+                                <label className="ms-2">{{ j.reviewer_id_id__username }}</label>
+                            </td>
+                            <td> {{ j.reviewer_comments }}</td>
+                             {% for i in scores %}
+                        <td>{{ i.score}}</td>
+                        {% endfor %}
+                            <td>
+                                <label className="ms-2">{{ j.reviewer_status }}</label>
+                            </td>
+                        <td>{{ j.updated_on }}</td>
+
+                        </tr>
+
+
+                    {% endfor %}
+                    {% else %}
+
+                       <tr>
+                           <td></td>
+                           <td></td>
+                           <td><-----* NO DATA *-----></td>
+                           <td></td>
+                           <td></td>
+
+                       </tr>
+
+                    {% endif %}
+                    </tbody>
+                </table>
+
+            </div>
+        <hr>
+             <div class="table-responsive mt-4">
+             <h3 style="color: darkred">PanelMember Result</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>PanelMember Id</th>
+                        <th>PanelMember Name</th>
+                        <th>PanelMember Comments</th>
+                        <th>Scores</th>
+                        <th>Status</th>
+                        <th>Updated On</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    {% if paneldata %}
+                    {% for k in paneldata %}
+                        <tr>
+                            <td>{{ k.panelmember_id_id }}</td>
+                            <td>
+                                <label className="ms-2">{{ k.panelmember_id_id__username }}</label>
+                            </td>
+                            <td> {{ k.panelmember_comments }}</td>
+                            <td>
+                                <label className="ms-2">{{ k.avg_score }}</label>
+                            </td>
+                        <td>{{ k.panel_status }}</td>
+                        <td>{{ k.updated_on }}</td>
+
+                        </tr>
+                          </tbody>
+
+                    {% endfor %}
+                    {% else %}
+                        <tbody>
+                       <tr>
+                           <td></td>
+                           <td></td>
+                           <td><-----* NO DATA *-----></td>
+                           <td></td>
+                           <td></td>
+
+                       </tr>
+                        </tbody>
+                    {% endif %}
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+</script>
+
+
+</html>

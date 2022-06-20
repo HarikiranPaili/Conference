@@ -1,0 +1,97 @@
+{% include 'head.html' %}
+
+<body>
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h3>PanelMember Status</h3>
+        <div class="card">
+            <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>Panel Member Name:</label>
+                    <input class="form-control" type="text" value="{{ panelmember }}" disabled>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Panel Member Id:</label>
+                    <input class="form-control"  type="text" value="{{ rid }}" disabled>
+                </div>
+                 <div class="form-group col-md-3">
+                    <label>Phone:</label>
+                    <input class="form-control"  type="text" value="{{ rphone }}" disabled>
+                </div>
+                 <div class="form-group col-md-3">
+                    <label>Email:</label>
+                    <input class="form-control"  type="text" value="{{ remail }}" disabled>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+
+            <div class="table-responsive" style="margin-top: 50px;">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+                        <th>Paper Title</th>
+                        <th>Proposal Date</th>
+                        <th>Scholar Name </th>
+                        <th>Scholar Phone </th>
+                        <th>Scholar Email </th>
+                        <th>Status with Reviewer</th>
+                        <th>Assigned Date</th>
+                        <th>Updated Date</th>
+                        <th>Score</th>
+                        <th>PanelMember Comments</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr>
+                        <td>{{ i.proposal_id_id__title }}</td>
+                        <td>{{ i.proposal_id_id__proposal_date }}</td>
+                        <td>{{ i.proposal_id_id__u_id_id__username }}</td>
+                        <td>{{ i.proposal_id_id__u_id_id__phone }}</td>
+                        <td>{{ i.proposal_id_id__u_id_id__email }}</td>
+                        <td>{{ i.panel_status }}</td>
+                        <td>{{ i.assigned_date }}</td>
+                        <td>{{ i.updated_on }}</td>
+                        <td>{{ i.avg_score }}</td>
+                        <td>{{ i.panelmember_comments }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/multiselect-dropdown.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+</script>
+
+
+</html>

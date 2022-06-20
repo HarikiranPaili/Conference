@@ -1,0 +1,248 @@
+{% include 'head.html' %}
+<body>
+
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="col align-items-end">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show"
+                     role="alert">{{ message }}
+                    <span class="closebtn" style=" float:right;"
+                          onclick="this.parentElement.style.display='none';">x</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-3 assigned" style="cursor: pointer">
+            <div class="dsk_content color-1">
+                <h6>Assigned to me</h6>
+                <h2>{{ total }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 accepted" style="cursor: pointer">
+            <div class="dsk_content color-3">
+                <h6>Accepted</h6>
+                <h2>{{ accepted }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 rejected" style="cursor: pointer">
+            <div class="dsk_content color-2">
+                <h6>Rejected</h6>
+                <h2>{{ rejected }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 poster" style="cursor: pointer">
+            <div class="dsk_content color-3">
+                <h6>Poster Presentation</h6>
+                <h2>{{ poster }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 pending" style="cursor: pointer">
+            <div class="dsk_content color-4">
+                <h6>Pending </h6>
+                <h2>{{ pending }}</h2>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Review</h3>
+            <div class="table-responsive">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+
+                        <th>Paper Title</th>
+                        <th>Status</th>
+                        <th>Document</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr>
+
+                            <td>{{ i.proposal_id__title }}</td>
+                            <td>
+
+                                <label className="ms-2">{{ i.reviewer_status }}</label>
+                            </td>
+                            <td><a href="/media/{{ i.proposal_id__re_documents }}" target="_blank"> Download</a></td>
+                            <td>
+                                {% if i.reviewer_status == "ACCEPTED" or i.reviewer_status == "REJECTED" or i.reviewer_status == "POSTER"  %}
+                                    NO ACTION
+                                {% else %}
+                                    <i data-bs-toggle="modal" data-bs-target="#exampleModal{{ i.id }}"
+                                       style="color:#023e8a"
+                                       class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <div class="modal fade" id="exampleModal{{ i.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Review Proposal</h5>
+                                        <button class="sa_modal_button" data-bs-dismiss="modal" aria-label="Close">
+                                            <i data-bs-dismiss="modal" aria-label="Close" class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <form action="{% url 'reviewer_action' %}" method='post' id="formsubmit{{ i.id }}">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-4">
+
+                                                        <input type="hidden" value="{{ i.id }}" name="sid">
+                                                        <input type="hidden" value="{{ i.proposal_id__id }}" name="pid">
+
+                                                        {% for q in questions %}
+                                                            <label class="form-control">{{ forloop.counter }}. {{ q.ques }}
+                                                                (0-5)</label>
+                                                            <input type="hidden" value="{{ q.id }}" name="ques[]">
+                                                            <select class="form-select" name="scores[]" required>
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                            </select></br>
+                                                        {% endfor %}
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Comments</label>
+                                                        <textarea class="form-control" name="comments" cols="3"
+                                                                  rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="btnsubmit">Save changes
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script>
+    function formsubmit() {
+        var flag = 0;
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                console.log('true')
+                return true;
+            } else if (result.isDenied) {
+                return false;
+            }
+        });
+        console.log('false')
+    }
+
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+        $(".rejected").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(1).search("").draw();
+            table.column(1).search("REJECTED").draw();
+        });
+        $(".pending").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(1).search("").draw();
+            table.column(1).search("PENDING").draw();
+        });
+         $(".poster").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(1).search("").draw();
+            table.column(1).search("POSTER").draw();
+        });
+        $(".accepted").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(1).search("").draw();
+            table.column(1).search("ACCEPTED").draw();
+        });
+        $(".assigned").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(1).search("").draw();
+        });
+
+        $(document).on('click', '#btnsubmit', function (e) {
+            let div = $(this);
+            $.confirm({
+                title: 'Are you sure!!',
+                content: 'Do you want to submit?',
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-success',
+                        action: function () {
+                           let str = div.parent().siblings('form').attr('id')
+                            $("form#"+str).submit();
+                        }
+                    },
+                    cancel: {
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                            return true;
+                        }
+                    }
+                },
+
+            });
+
+        });
+
+    });
+
+</script>
+</body>
+
+</html>

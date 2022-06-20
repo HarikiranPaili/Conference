@@ -1,0 +1,191 @@
+
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Self Assessment</title>
+        {%load static %}
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <!-- Argon CSS -->
+        <link type="text/css" href="https://argon-dashboard-laravel.creative-tim.com/argon/css/argon.css?v=1.0.0" rel="stylesheet">
+
+
+        <link href="{%static 'Dash Forge/lib/@fortawesome/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/typicons.font/typicons.css ' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/prismjs/themes/prism-vs.css' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/datatables.net-dt/css/jquery.dataTables.min.css ' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css ' %}" rel="stylesheet">
+	    <link href="{%static 'Dash Forge/lib/select2/css/select2.min.css ' %}" rel="stylesheet">
+
+	    <!-- DashForge CSS -->
+        <link rel="stylesheet" href="{%static 'Dash Forge/assets/css/dashforge.css' %}">
+
+        <style type="text/css">
+            html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+            a {
+                text-decoration: none;
+                color: #5d0000;
+                background-color: transparent;
+                -webkit-text-decoration-skip: objects;
+            }
+             .bg-gradient-primary {
+                background: linear-gradient(87deg, #a70000 0, #560000 100%) !important;
+            }
+        	#bt {
+				border: none;
+				color: white;
+				}
+        </style>
+    </head>
+    <body class="">
+        <form id="logout-form" action="logout" method="POST" style="display: none;">
+            <input type="hidden" name="_token" value="xmS496QOABm7fqhmjuT52bSBFwcgBF8M2jM87brn">
+        </form>
+
+
+                    <div class="header-logos">
+                        <div class="row">
+                            <div class="col-md-4 text-left category">
+                                <a href="https://www.gitam.edu/accreditation">
+                                    <img src="https://www.gitam.edu/assets/images/category-1.png" alt="GITAM Category 1" title="GITAM Category 1">
+                                </a>
+                                <a href="https://www.gitam.edu/accreditation">
+                                    <img src="https://www.gitam.edu/assets/images/naac-logo.png" alt="GITAM NAAC A+" title="GITAM NAAC A+">
+                                </a>
+
+                             </div>
+                            <div class="col-md-4">
+                                <div class="logo">
+                                    <a href="https://www.gitam.edu/" ><img class="lazyload" src="https://www.gitam.edu/assets/images/GITAM-logo.png" alt="GITAM logo" title="GITAM"></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right naac">
+                                <a href="https://www.gitam.edu/accreditation">
+                                    <img src="https://www.gitam.edu/assets/images/aicte.png" alt="GITAM AICTE" title="GITAM AICTE">
+                                </a>
+                                <a href="https://www.gitam.edu/gitam-at-glance#established">
+                                    <img src="https://www.gitam.edu/assets/images/excellence-new.png" alt="GITAM 41 Years of Committed Excellence" title="GITAM 41 Years of Committed Excellence">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+        <div class="main-content">
+
+            <!-- Top navbar -->
+			<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+			    <div class="container-fluid">
+			        <!-- Brand -->
+			        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#"></a>
+
+			        <!-- User -->
+			        <ul class="navbar-nav align-items-center d-none d-md-flex">
+
+			        </ul>
+			    </div>
+			</nav>
+
+        	<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+			    <div class="container-fluid">
+			        <div class="header-body">
+                             {% for message in messages %}
+                                <div class="container p-0">
+                                  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                     {{ message | safe }}
+                                  </div>
+                                </div>
+                             {% endfor %}
+
+
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+<!--                                <form action="{%url 'index' %}" method="POST">-->
+<!--                                    {%csrf_token%}-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label>Enter Employee Id</label>-->
+<!--                                        <input class="form-control" type="text" name="empid">-->
+<!--                                    </div>-->
+
+<!--                                    <div class="form-group">-->
+<!--                                    <center><button class="btn btn-success" type="submit" >Submit</button></center>-->
+<!--                                        </div>-->
+<!--                                </form>-->
+
+                                        <center> <a href="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-primary"><img src="/static/gmail.png" style="height: 10%;width: 10%;"> Login with Gmail Account</button></a></center>
+
+                                        <br>
+                                        <center><p style="color: red; font-weight: bold;">Note: Please use Gitam Account to Login</p></center>
+                                 </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+
+                        </div>
+        		</div>
+    		</div>
+
+
+		</div>
+
+
+ </div>
+
+
+        <script src="https://argon-dashboard-laravel.creative-tim.com/argon/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="https://argon-dashboard-laravel.creative-tim.com/argon/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+        <!-- Argon JS -->
+        <script src="https://argon-dashboard-laravel.creative-tim.com/argon/js/argon.js?v=1.0.0"></script>
+
+         <script src="{%static 'Dash Forge/lib/feather-icons/feather.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/prismjs/prism.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/datatables.net-dt/js/dataTables.dataTables.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js' %}"></script>
+        <script src="{%static 'Dash Forge/lib/select2/js/select2.min.js' %}"></script>
+
+        <script src="{%static 'Dash Forge/assets/js/dashforge.js' %}"></script>
+
+     <script>
+
+        $('#example1').DataTable({
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          }
+        });
+
+
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    </body>
+</html>

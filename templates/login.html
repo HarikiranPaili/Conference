@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class='container mt-5'>
+    <div class='row d-flex align-items-center sa-flex-direction'>
+        <div class='col col-md-12 col-lg-6'>
+            <div class='sa-img'>
+                <img src="/static/img/login_img_GITAM.svg" alt="login_page_image"/>
+            </div>
+        </div>
+        <div class='col col-md-12 col-lg-6'>
+            <div class='text-center mb-3'>
+
+                <img src="/static/img/GITAM-logo.png" alt="GITAM_logo" class="gitam_logo"/>
+            </div>
+            <div class="dsk-card text-center">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-dismissible fade show login-alert"
+                             role="alert">{{ message }}
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';"
+                                  style="float:right;cursor: pointer;">&times;</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <img src="/static/img/GEARS-logo.jpeg" alt="GEARS_logo" class="gitam_logo"/>
+                <h1>Get's started </h1>
+               <a href="{% url 'social:begin' 'google-oauth2' %}" style="text-decoration:none;"> <div class="google" id="login">
+
+                    <img
+                            src="/static/img/google_img_GITAM.svg"
+                            alt="google_logo"/><h6>Login with
+                    Google</h6>
+
+                </div></a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<div class="container mt-5" id="change_table">
+    <div class="row">
+        <div class="col-12">
+            <h3>Results List</h3>
+            <div class="table-responsive">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+
+                        <th>Register Id</th>
+                        <th>Scholar Name</th>
+                        <th>Campus</th>
+                        <th>Institute</th>
+                        <th>Department</th>
+                        <th>Paper Title</th>
+                        <th>Proposal Date</th>
+                        <th>Average Score</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in filtered %}
+                        <tr>
+                            <td>{{ i.u_id_id__u_id }}</td>
+                            <td>{{ i.u_id_id__first_name }}</td>
+                            <td>{{ i.u_id_id__campus }}</td>
+                            <td>{{ i.u_id_id__institution }}</td>
+                            <td>{{ i.u_id_id__department }}</td>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.proposal_date }}</td>
+                            <td>{{ i.avg_score | floatformat:2 }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $('#myTable').DataTable();
+</script>

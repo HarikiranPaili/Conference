@@ -1,0 +1,99 @@
+{% include 'head.html' %}
+
+<body>
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+
+        <div class="table-responsive mt-4">
+             <h3 style="color: darkred">Reviewer Result</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Proposal Title</th>
+                        <th>Reviewer Name</th>
+                        <th>Proposal Re-uploaded Document</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    {% if data %}
+                    {% for j in data %}
+                        <tr>
+                            <td>{{ j.proposal_id__title }}</td>
+                            <td>
+                                <label className="ms-2">{{ j.reviewer_id__username }}</label>
+                            </td>
+                        <td>
+                                <a href="/media/{{ document }}"><label className="ms-2">Download Re-uploaded Document</label></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    {% endif %}
+                    </tbody>
+                </table>
+
+            </div>
+        <hr>
+             <section>
+             <h3 style="color: darkred">Edit Reviewer or Document</h3>
+                 <form action="{%url 'change_reviewer_document'%}" method="post" enctype="multipart/form-data">
+                 {% csrf_token %}
+                     <div class="row">
+                         <div class="form-group col-md-3">
+
+                             <input type="hidden" value="{{ pid }}" name="pid">
+                             <input type="hidden" value="{{ rid }}" name="rid">
+                                <label class="form-label">
+                                 Change Reviewer/Re-Assign Reviewer</label>
+
+                             <select class="form-control" name="reviewer">
+                                 <option value="">Select Reviewer</option>
+                                 {% for j in reviewer %}
+                                     <option value="{{ j.id }}">{{ j.username }}</option>
+                                 {% endfor %}
+                             </select>
+                         </div>
+                         <div class="form-group col-md-3">
+                             <label class="form-label">
+                                 Re-Upload Document</label>
+                             <input name="paperfile" type="file"
+                                    class="form-control" required
+                                    accept="application/pdf">
+                         </div>
+                     <div class="form-group col-md-3" style="margin: 30px;">
+                     <button class="sa_btn bg_1" type="submit" id="report"> Submit </button>
+                     </div>
+
+
+                     </div>
+                 </form>
+
+
+             </section>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+</script>
+
+
+</html>

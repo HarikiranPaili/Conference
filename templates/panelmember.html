@@ -1,0 +1,157 @@
+{% include 'head.html' %}
+
+<body>
+
+<!--header-->
+{% include 'header.html' %}
+
+<div class="container">
+        <div class="col align-items-end">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show"
+                             role="alert">{{ message }}
+                            <span class="closebtn" style=" float:right;"
+                                  onclick="this.parentElement.style.display='none';">x</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-3 assigned" style="cursor: pointer">
+            <div class="dsk_content color-1">
+                <h6>Assigned to me</h6>
+                <h2>{{ total }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 completed" style="cursor: pointer">
+            <div class="dsk_content color-3">
+                <h6>Completed</h6>
+                <h2>{{ completed }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 pending" style="cursor: pointer">
+            <div class="dsk_content color-4">
+                <h6>Pending </h6>
+                <h2>{{ pending }}</h2>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Review</h3>
+            <div class="table-responsive">
+                <table class="table" id="myTable">
+                    <thead>
+                    <tr>
+
+                        <th>Paper Title</th>
+                        <th>Assigned Date</th>
+                        <th>Scheduled Date</th>
+                        <th>Document</th>
+                        <th>Score (Out of 100)</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in data %}
+                        <tr>
+                            <td>{{ i.proposal_id__title }}</td>
+                            <td>
+                                <label className="ms-2">{{ i.assigned_date }}</label>
+                            </td>
+                            <td>
+                                <label className="ms-2">{{ i.scheduled_date }}</label>
+                            </td>
+                            <td><a href="/media/{{ i.proposal_id__re_documents }}" target="_blank"> View</a></td>
+                            <td>
+                                {% if i.avg_score %}
+                                    <label className="ms-2">{{ i.avg_score }}</label>
+                                {% else %}
+                                    <label className="ms-2">TBA</label>
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                                <label className="ms-2">{{ i.panel_status }}</label>
+                            </td>
+                            {% if not 'COMPLETED' in i.panel_status %}
+                                <td>
+                                    <a href="{% url 'panelmember_edit' i.id %}"><i style="color:#023e8a"
+                                                                                   class="fa fa-pencil-square-o"
+                                                                                   aria-hidden="true"></i></a>
+                                </td>
+                            {% else %}
+                                <td> No Action</td>
+                            {% endif %}
+                        </tr>
+
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+         "lengthMenu": [[10, 15, 20, -1], ["10", "15", "20", "ALL"]],
+             buttons: [
+                {
+                    extend : 'excelHtml5',
+                    text: 'Export Excel',
+                }
+
+            ],
+             dom: '<"top" B>lfrtip',});
+        $(".assigned").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(5).search("").draw();
+        });
+        $(".completed").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(5).search("").draw();
+            table.column(5).search("COMPLETED").draw();
+        });
+        $(".pending").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(5).search("").draw();
+            table.column(5).search("PENDING").draw();
+        });
+        $(".onhold").click(function () {
+
+            var table = $("#myTable").DataTable();
+            table.column(5).search("").draw();
+            table.column(5).search("ONHOLD").draw();
+        });
+    });
+
+</script>
+
+</body>
+</html>

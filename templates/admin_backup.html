@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GITAM Deemed to be University</title>
+    <link rel="shortcut icon" href="https://www.gitam.edu/assets/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/static/css/select2.min.css">
+    <link type="text/css"
+          href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css"
+          rel="stylesheet"/>
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include 'header2.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col align-items-start"></div>
+            <div class="col align-items-center"></div>
+            <div class="col align-items-end">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show"
+                             role="alert">{{ message }}
+                            <span class="closebtn" style=" float:right;"
+                                  onclick="this.parentElement.style.display='none';">x</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-3 total" style="cursor: pointer">
+                <div class="dsk_content color-1">
+                    <p>Total Papers</p>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 revision" style="cursor: pointer">
+                <div class="dsk_content color-2">
+                    <p> Assignee Reviewer Pending</p>
+                    <h2>{{ a_reviewer_pending }}</h2>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 reviewerpending" style="cursor: pointer">
+                <div class="dsk_content color-4">
+                    <p>Pending with Reviewer</p>
+                    <h2>{{ pending_with_reviewer }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 panelpending" style="cursor: pointer">
+                <div class="dsk_content color-1">
+                    <p>Assignee PanelMember Pending</p>
+                    <h2>{{ a_panel_pending }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 pendingwithpanel" style="cursor: pointer">
+                <div class="dsk_content color-4">
+                    <p>Pending with PanelMember</p>
+                    <h2>{{ pending_with_panelmember }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 completed" style="cursor: pointer">
+                <div class="dsk_content color-3">
+                    <p>Completed Papers</p>
+                    <h2>{{ completed }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 rejected" style="cursor: pointer">
+                <div class="dsk_content color-2">
+                    <p>Rejected Papers</p>
+                    <h2>{{ rejected }}</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+
+        <button class="sa_btn_black" style="float:right" id="panel_evaluation" data-bs-toggle="modal"
+                data-bs-target="#modalpanel">
+            <span>Assign PanelMember</span>
+        </button>
+    </div>
+    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Review</h3>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr id="all">
+                            <th></th>
+                            <th>ID</th>
+                            <th>Paper Title</th>
+                            <th>Plagarism</th>
+                            <th>Plagarism(Doc)</th>
+                            <th>Campus</th>
+                            <th>Institute</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in admin %}
+
+                            <tr id="{{ i.id }}">
+                                <td>{{ i.id }}</td>
+                                <td><a href="{% url 'scholar_view' i.id %}" target="_blank"><span>#{{ i.id }}</span></a></td>
+                                <td><a href="{% url 'scholar_view' i.id %}" target="_blank">{{ i.title }}</a></td>
+                                <td> {{ i.plagarism_score }} </td>
+                                <td><a href="/media/{{ i.plagarism_doc }}" target="_blank"> Download</a></td>
+                                <td> {{ i.u_id__campus }} </td>
+                                <td> {{ i.u_id__institution }} </td>
+                                <td> {{ i.u_id__department }} </td>
+                                <td id="{{ i.proposal_status }}">
+                                    {% if i.proposal_status == 0 %}
+                                        Assignee Reviewer Pending
+                                    {% elif i.proposal_status == 1 %}
+                                        Pending with Reviewer
+                                    {% elif i.proposal_status == 2 %}
+                                        Assignee Panel Member Pending
+                                    {% elif i.proposal_status == 3 %}
+                                        Pending with PanelMember
+                                    {% elif i.proposal_status == 4 %}
+                                        Completed
+                                    {% else %}
+                                        Rejected
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if i.proposal_status == 1 %}
+                                        <a href="{% url 'email'  i.id %}">Send Email</a>
+                                    {% elif i.proposal_status == 2 %}
+                                        <p style="color:darkred">Assign PanelMember</p>
+                                    {% elif i.proposal_status == 3 %}
+                                        <a href="{% url 'email'  i.id %}">Send Email</a>
+                                    {% elif i.proposal_status == 4 or i.proposal_status == -1 %}
+                                        No Action
+                                    {% else %}
+                                        <div class="tabel_buttons">
+                                            <button class="bg_2" data-bs-toggle="modal"
+                                                    data-bs-target="#modal{{ i.id }}">
+                                                <img
+                                                        src="/static/img/upload.png" alt="upload_img"/>
+                                            </button>
+                                            <button class="bg_3">
+                                                <a href="/media/{{ i.documents }}" target="_blank"> <img
+                                                        src="/static/img/download.png" alt="download_img"/></a>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="modal{{ i.id }}" tabindex="-1" aria-labelledby="ModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <button class="sa_modal_button" data-bs-dismiss="modal" aria-label="Close">
+                                            <i data-bs-dismiss="modal" aria-label="Close" class="fa fa-times"></i>
+                                        </button>
+                                        <div class="modal-body">
+                                            <div class="modal_content">
+                                                <h5>Assign Review</h5>
+                                                <form id="form1" method="post" action="{% url 'admin_reupload' %}"
+                                                      enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">
+                                                                    Re-Upload Document</label>
+                                                                <input name="paperfile" type="file"
+                                                                       class="form-control" required
+                                                                       accept="application/pdf">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Add Reviewer</label>
+                                                                <input type="hidden" value="{{ i.id }}" name="pid">
+
+                                                                <label>
+                                                                    <select class="form-control" name="reviewer">
+                                                                        <option value="">Select Reviewer</option>
+                                                                        {% for j in reviewer %}
+                                                                            <option value="{{ j.id }}">{{ j.username }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </label>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-lg-12">
+                                                            <div class="d-flex justify-content-end">
+                                                                <button class="sa_btn bg_none"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close">Cancel
+                                                                </button>
+                                                                <button class="sa_btn bg_1" type="submit"
+                                                                        id="report">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalpanel" tabindex="-1" aria-labelledby="ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button class="sa_modal_button" data-bs-dismiss="modal" aria-label="Close">
+                    <i data-bs-dismiss="modal" aria-label="Close" class="fa fa-times"></i>
+                </button>
+                <div class="modal-body">
+                    <div class="modal_content">
+                        <h5>Assign Panel Member</h5>
+                        <form id="form1" method="post" action="{% url 'panel_upload' %}"
+                              multiple>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="hidden" value="{{ i.id }}" name="pid">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Proposal Id Selected</label>
+                                        <input name="ids" id='ids' type="text" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Schedule Conference Date</label>
+                                        <input name="sdate" type="datetime-local" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Zoom Link</label>
+                                        <input name="zmeet" type="text" class="form-control">
+                                    </div>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="panelmember">Panel Members</label>
+
+                                    <select class="form-control"
+                                            name="panelmember"
+                                            id="panelmember"
+                                            multiple required multiselect-search="true"
+                                            multiselect-select-all="true"
+                                            multiselect-max-items="3">
+
+                                        {% for j in panelmem %}
+                                            <option value={{ j.id }}>{{ j.username }}</option>
+                                        {% endfor %}
+                                    </select>
+
+
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-end">
+                                        <button class="sa_btn bg_none"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close">Cancel
+                                        </button>
+                                        <button class="sa_btn bg_1" type="submit"
+                                                id="report">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/multiselect-dropdown.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#panel_evaluation').hide();
+
+        let table = $('#myTable').DataTable({
+
+            "lengthMenu": [[3, 5, 10, 15, 20, -1], ["3", "5", "10", "15", "20", "ALL"]],
+             fixedColumns: {
+                 left: 6,
+             },
+             scrollX: true,
+             scrollY: true,
+            _fixedHeader:true,
+            'columnDefs': [
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true
+                    }
+                }
+            ],
+            'select': {
+                'style': 'multi'
+            },
+            'order': [[1, 'asc']]
+        });
+
+        new $.fn.dataTable.FixedHeader( table );
+        let all = 0;
+
+        $(".reviewerpending").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("Pending with Reviewer").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+        $(".panelpending").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("Assignee Panel Member Pending").draw();
+            all = 1;
+        });
+        $(".pendingwithpanel").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("Pending with PanelMember").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+        $(".rejected").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("Rejected").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+        $(".completed").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("Completed").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+        $(".revision").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search(" Assignee Reviewer Pending").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+        $(".total").click(function () {
+
+            let table = $("#myTable").DataTable();
+            table.column(8).search("").draw();
+            all = 0;
+            $('#panel_evaluation').hide();
+        });
+
+
+        $(document).on('click', '#logout', function () {
+            window.location.href = '/logout';
+            return false;
+        });
+
+        let ids = [];
+        $(document).on('change', '.dt-checkboxes-cell> :input[type=checkbox]', function () {
+            let status = $(this).parents('tr').find('td').eq(8).attr('id');
+            if (status != 2 && !all) {
+                alert("Not Allowed");
+                $(this).prop('checked', false);
+                table.column(0).checkboxes.deselect(true);
+                $('#panel_evaluation').hide();
+
+            } else {
+                let rows_selected = table.column(0).checkboxes.selected();
+                let val = rows_selected.join(",")
+                $('#panel_evaluation').show();
+                $('#ids').val(val);
+            }
+
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
